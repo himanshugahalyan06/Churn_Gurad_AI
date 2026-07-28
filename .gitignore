@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.toast
+.lucid
+.pytest_cache/
+.coverage
+htmlcov/
+.ipynb_checkpoints
+.eggs/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Databases / Logs
+*.db
+*.log
+
+# Node / Frontend
+node_modules/
+dist/
+dist-ssr/
+*.local
+.eslintcache
+.stylelintcache
+frontend/dist/
+frontend/node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environments / Configs
+.env
+.env*.local
+.vscode/
+.idea/
