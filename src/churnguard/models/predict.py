@@ -1,3 +1,4 @@
+import os
 import json
 import joblib
 import pandas as pd
@@ -25,14 +26,20 @@ class Predictor:
 
     def __init__(self):
         logger.info("Initializing Predictor...")
-        mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
         
-        try:
-            logger.info("Attempting to load model from MLflow registry...")
-            self.model = mlflow.sklearn.load_model("models:/ChurnGuardModel/latest")
-            logger.info("Loaded model from MLflow registry successfully.")
-        except Exception as e:
-            logger.warning(f"Could not load model from MLflow registry: {e}. Falling back to local joblib.")
+        use_mlflow = os.getenv("ENABLE_MLFLOW", "false").lower() == "true"
+        self.model = None
+
+        if use_mlflow:
+            mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
+            try:
+                logger.info("Attempting to load model from MLflow registry...")
+                self.model = mlflow.sklearn.load_model("models:/ChurnGuardModel/latest")
+                logger.info("Loaded model from MLflow registry successfully.")
+            except Exception as e:
+                logger.warning(f"Could not load model from MLflow registry: {e}. Falling back to local joblib.")
+        
+        if self.model is None:
             try:
                 self.model = joblib.load(
                     MODEL_DIR / "random_forest.joblib"
